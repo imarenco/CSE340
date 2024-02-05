@@ -90,6 +90,20 @@ Util.buildDetailPage = async function (data) {
   }
 };
 
+Util.selectList = async function (req, res, next) {
+  let data = await invModel.getClassifications()
+  let list = '<label for="classification_id" class="label-properties">Classification:</label>'
+  list += '<select class="label-properties" id="classification_id" name="classification_id" required>'
+  list += '<option value="">Choose a classification</option>'
+  data.rows.forEach((row) => {
+      list += '<option value="' + row.classification_id
+      list += '">' + row.classification_name + '</option>'
+  })
+  list += '</select>'
+  return list
+}
+
+
 Util.handleErrors = (fn) => (req, res, next) =>
   Promise.resolve(fn(req, res, next)).catch(next);
 

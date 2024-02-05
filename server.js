@@ -8,14 +8,38 @@
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
 const env = require("dotenv").config();
+const flash = require("connect-flash");
+const pool = require("./database/");
+const session = require("express-session");
 const app = express();
+app.use(express.json()); // for parsing application/json
+app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 const utilities = require("./utilities/");
 const static = require("./routes/static");
 
 const baseController = require("./controllers/baseController");
 const inventoryRouter = require("./routes/inventoryRoute");
+const accountRouter = require("./routes/accountRoute");
 
+app.use(
+  session({
+    store: new (require("connect-pg-simple")(session))({
+      createTableIfMissing: true,
+      pool,
+    }),
+    secret: process.env.SESSION_SECRET,
+    resave: true,
+    saveUninitialized: true,
+    name: "sessionId",
+  })
+);
+
+app.use(flash());
+app.use(function (req, res, next) {
+  res.locals.messages = require("express-messages")(req, res);
+  next();
+});
 /* ***********************
  * Routes
  *************************/
@@ -34,6 +58,7 @@ const host = process.env.HOST;
 
 app.get("/", baseController.buildHome);
 app.use("/inv", inventoryRouter);
+app.use("/account", accountRouter);
 
 /* ***********************
  * Express Error Handler

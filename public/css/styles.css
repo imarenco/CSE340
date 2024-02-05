@@ -25,6 +25,7 @@ span {
 
 body {
   padding: 0px 16px;
+  margin: 0px;
 }
 
 #top-header {
@@ -279,3 +280,77 @@ nav ul li a {
     margin: 0;
   }
 }
+
+.form-container {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  padding-top: 2vw;
+  padding-bottom: 2vw;
+}
+
+.form {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: auto;
+}
+
+
+.FormLabel {
+  display: block;
+  margin-bottom: 8px;
+  color: #333;
+  font-size: var(--paragraph-font-size);
+}
+
+.form input, textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 1vw;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: var(--paragraph-font-size);
+}
+
+.AddInput:focus {
+  outline: none;
+  border-color: #6e7f80;
+}
+
+.AddButton{
+  background-color: #004E89;
+  color: white;
+  font-size: var(--paragraph-font-size);
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.AddButton:hover{
+  background-color: #1A659E;
+  color: white;
+}
+
+
+#classificationList {
+  width: 100%;
+  margin-bottom: 1vw;
+}
+
+#message {
+  color: green;
+  font-size: 20px;
+}
+
+#message ul {
+  list-style-type: none;
+}
+
+.AddLabelDirection {
+  font-size: 12px;
+}
+

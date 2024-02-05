@@ -1,0 +1,39 @@
+<!-- Content Heading -->
+<% if (title) { %>
+<h1><%= title %></h1>
+<% } else { res.redirect('/') } %> <%- messages() %>
+
+<!-- Add Classification Display -->
+<div id="message"><%- messages() %></div>
+<% if (errors) { %>
+<ul class="message">
+  <% errors.array().forEach(error => {%>
+  <li><%= error.msg %></li>
+  <% }) %>
+</ul>
+<% } %>
+
+<div id="add-classification" class="form-container">
+  <form method="post" action="/inv/addClassification" class="form">
+    <label for="classification" class="FormLabel">Classification:</label>
+    <label class="AddLabelDirection"
+      >The new classification name cannot contain a space or special character
+      of any kind.</label
+    >
+    <input
+      type="text"
+      id="classification_name"
+      name="classification_name"
+      required
+      class="AddInput"
+    />
+
+    <input
+      id="submitButton"
+      type="submit"
+      name="submit"
+      value="Submit"
+      class="AddButton"
+    />
+  </form>
+</div>
