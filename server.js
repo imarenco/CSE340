@@ -14,6 +14,7 @@ const session = require("express-session");
 const app = express();
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+const cookieParser = require("cookie-parser")
 
 const utilities = require("./utilities/");
 const static = require("./routes/static");
@@ -40,6 +41,8 @@ app.use(function (req, res, next) {
   res.locals.messages = require("express-messages")(req, res);
   next();
 });
+
+app.use(cookieParser())
 /* ***********************
  * Routes
  *************************/
@@ -56,7 +59,14 @@ app.set("layout", "./layouts/layout");
 const port = process.env.PORT;
 const host = process.env.HOST;
 
+app.use(utilities.checkJWTToken)
+
 app.get("/", baseController.buildHome);
+app.use('/logout', (req, res)=>{ 
+  res.clearCookie("jwt")
+  return res.redirect("/")
+});
+
 app.use("/inv", inventoryRouter);
 app.use("/account", accountRouter);
 

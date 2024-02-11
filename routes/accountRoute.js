@@ -9,15 +9,16 @@ router.post(
   "/login",
   regValidate.loginRules(),
   regValidate.checkLoginData,
-  (req, res) => {
-    res.status(200).send("login process");
-  }
-);
+  utilities.handleErrors(accountController.accountLogin)
+)
 
 router.get(
   "/register",
   utilities.handleErrors(accountController.buildRegistration)
 );
+
+router.get("/editAccount/:accountId", utilities.handleErrors(accountController.editAccount));
+
 
 router.post(
   "/register",
@@ -26,8 +27,27 @@ router.post(
   utilities.handleErrors(accountController.registerAccount)
 );
 
-router.post("/login", (req, res) => {
-  res.status(200).send("login process");
-});
+router.get("/", utilities.handleErrors(accountController.buildManagment))
+
+router.post(
+  "/",
+  utilities.handleErrors(accountController.buildManagment)
+)
+
+router.post(
+  "/update",
+  regValidate.updateRules(),
+  regValidate.checkUpdateData,
+utilities.handleErrors(accountController.updateAccount)
+)
+
+// Route to update account password
+router.post(
+  "/update/password",
+  regValidate.passwordRules(),
+  regValidate.checkPasswordData,
+  utilities.handleErrors(accountController.updatePassword)
+)
+
 
 module.exports = router;
