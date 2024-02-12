@@ -6,7 +6,6 @@ const accountModel = require("../models/account-model.js");
 
 //Builds Login View
 async function buildLogin(req, res, next) {
-  console.log("aca perrrrrro");
   let nav = await utilities.getNav();
   const error = req.flash("error")?.[0];
 
@@ -122,6 +121,14 @@ async function accountLogin(req, res) {
 
       res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 });
       return res.redirect("/account/");
+    } else {
+      req.flash("notice", "Please check your credentials and try again.");
+      res.status(400).render("account/login", {
+        title: "Login",
+        nav,
+        errors: null,
+        account_email,
+      });
     }
   } catch (error) {
     return new Error("Access Forbidden");
@@ -138,41 +145,29 @@ async function buildManagment(req, res, next) {
 }
 
 async function updateAccount(req, res) {
-  console.log("llegue");
-  console.log("llegue");
-  console.log("llegue");
-  console.log("llegue");
-  console.log("llegue");
-  console.log("llegue");
   const account_id = res.locals.accountData.account_id;
   let nav = await utilities.getNav();
   const { account_firstname, account_lastname, account_email } = req.body;
   // if the details form is submitted
-  console.log("acaperrraco", req.body.account_lastname, account_email);
   if (req.body.account_lastname) {
     const checkEmail =
       res?.locals?.accountData?.account_email === account_email ? false : true;
 
-    console.log("acaperrraco", checkEmail);
     const emailExist = await accountModel.checkExistingEmail(
       res?.locals?.accountData?.account_email
     );
-    console.log("acaperrraco2", checkEmail);
     if (checkEmail & emailExist) {
       req.flash("notice", "Sorry, that email address is already in use.");
       res.redirect("/account");
 
       // if email field has changed and new email is not in use
     } else {
-      console.log("aacaaa");
       const regResult = await accountModel.updateAccount(
         account_id,
         account_firstname,
         account_lastname,
         account_email
       );
-
-      console.log("result", regResult);
       if (regResult) {
         const accountData = await accountModel.getAccountByID(account_id);
         const accessToken = jwt.sign(
@@ -186,13 +181,10 @@ async function updateAccount(req, res) {
           overwrite: true,
         });
         res.locals.accountData = accountData;
-
-        console.log("aacaaa2");
         req.flash(
           "notice",
           `Information Successfully Updated, Please Login Again to Refresh Your Account`
         );
-        console.log("all fine");
         res.redirect("/account/");
       } else {
         req.flash("notice", "Sorry, there was an error processing the update.");
@@ -212,8 +204,6 @@ async function updatePassword(req, res) {
   let accountdata = res.locals.accountData;
   const account_id = res.locals.accountData.account_id;
   if (req.body.account_password) {
-    console.log("Password Form Submitted");
-
     let hashedPassword;
     try {
       hashedPassword = await bcrypt.hashSync(req.body.account_password, 10);
