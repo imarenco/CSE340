@@ -1,0 +1,18 @@
+<h1 class="approval-page-title"><%= title %></h1>
+<%- messages() %>
+
+<select name="approval-list" id="approval-list">
+  Select what you want to approve:
+  <option value="" selected>Select an option</option>
+  <option value="classification">Classification</option>
+  <option value="inventory">Inventory Item</option>
+</select>
+<input
+  type="hidden"
+  id="account_id"
+  name="account_id"
+  value="<%= locals.accountData.account_id %>"
+/>
+<div class="approval-box"></div>
+
+<script src="../../js/approve.js"></script>

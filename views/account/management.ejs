@@ -30,5 +30,12 @@
         <br>
         <a class= "txt-blue" href="/inv">Manage Inventory</a> <br>
         <% } %>
+
+
+        <% if (locals.accountData.account_type === "Admin") { %>
+          <h3>Approval Management</h3>
+          <br>
+          <a href="/approve/management/">Update Approve Management</a> <br>
+          <% } %>
         <br><br>
       </section>

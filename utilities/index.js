@@ -122,14 +122,24 @@ Util.checkJWTToken = async (req, res, next) => {
         }
 
         if (
-          (!["admin", "employee"].includes(
+          !["admin", "employee"].includes(
             accountData?.account_type?.toLowerCase()
           ) &&
-            req?.path?.includes("/inv/addClassification")) ||
-          req?.path?.includes("/inv/addVehicle")
+          (req?.path?.includes("/inv/addClassification") ||
+            req?.path?.includes("/inv/addVehicle"))
         ) {
           req.flash(
-            'error', " This must NOT be used when delivering the classification or detail views as they are meant for site visitors who may not be logged in."
+            "error",
+            " This must NOT be used when delivering the classification or detail views as they are meant for site visitors who may not be logged in."
+          );
+          return res.redirect("/account/login");
+        } else if (
+          !["admin"].includes(accountData?.account_type?.toLowerCase()) &&
+          req?.path?.includes("/approve")
+        ) {
+          req.flash(
+            "error",
+            " This must NOT be used when delivering the classification or detail views as they are meant for site visitors who may not be logged in."
           );
           return res.redirect("/account/login");
         }
@@ -143,8 +153,8 @@ Util.checkJWTToken = async (req, res, next) => {
       req.path.includes("/inv") ||
       req.path.includes("/favicon") ||
       req.path === "/" ||
-      req?.path?.includes('account/login') ||
-      req?.path?.includes('account/register')
+      req?.path?.includes("account/login") ||
+      req?.path?.includes("account/register")
     ) {
       next();
     } else {

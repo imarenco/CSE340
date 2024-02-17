@@ -65,7 +65,6 @@ nav ul li a {
 }
 
 .logout {
-
   margin-left: 5px;
 }
 
@@ -355,6 +354,7 @@ textarea {
 .AddButton {
   background-color: #004e89;
   color: white;
+  cursor: pointer;
   font-size: var(--paragraph-font-size);
   border-radius: 4px;
   padding: 10px;
@@ -381,4 +381,41 @@ textarea {
 
 .AddLabelDirection {
   font-size: 12px;
+}
+
+.approval-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.approval-list li {
+  padding: 10px;
+  background-color: #004e89;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  margin: 18px;
+  border-radius: 8px;
+  max-width: 200px;
+}
+
+.form-buttons {
+  justify-content: space-evenly;
+  margin-top: 50px;
+  display: flex;
+}
+
+.form-buttons input {
+  border: none;
+  margin: 5px;
+  background-color: #1a659e;
+}
+
+#approval-list {
+  padding: 8px;
+  border-radius: 8px;
+
+  outline: none;
+  color: black;
+  background: white;
 }

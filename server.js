@@ -21,6 +21,7 @@ const static = require("./routes/static");
 
 const baseController = require("./controllers/baseController");
 const inventoryRouter = require("./routes/inventoryRoute");
+const approveRoute = require("./routes/approveRoute");
 const accountRouter = require("./routes/accountRoute");
 
 app.use(
@@ -67,8 +68,10 @@ app.use('/logout', (req, res)=>{
   return res.redirect("/")
 });
 
+app.use("/approve", approveRoute);
 app.use("/inv", inventoryRouter);
 app.use("/account", accountRouter);
+
 
 /* ***********************
  * Express Error Handler
